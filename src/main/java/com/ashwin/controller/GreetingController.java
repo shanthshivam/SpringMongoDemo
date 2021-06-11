@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ashwin.accessingdatamysql.Details;
-import com.ashwin.accessingdatamysql.DetailsRepository;
-import com.ashwin.accessingdatamysql.User;
-import com.ashwin.accessingdatamysql.UserRepository;
+import com.ashwin.accessingdatamongo.Details;
+import com.ashwin.accessingdatamongo.DetailsRepository;
+import com.ashwin.accessingdatamongo.User;
+import com.ashwin.accessingdatamongo.UserRepository;
 
 @Controller
 public class GreetingController {
@@ -26,16 +26,15 @@ public class GreetingController {
 	@PostMapping("/login")
 	public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
 			@RequestParam(name = "email", required = false, defaultValue = "s@gmail.com") String email, Model model) {
+
+
+		// putting the name and email in the database spring_db
+		User userDetails = new User(name,email);
+		userRepository.save(userDetails);
+		
 		// setting the name and email to the Model greeting.html
 		model.addAttribute("name", name);
 		model.addAttribute("email", email);
-
-		// putting the name and email in the database spring_db
-		User userDetails = new User();
-		userDetails.setName(name);
-		userDetails.setEmail(email);
-		userRepository.save(userDetails);
-		
 		System.out.println("Calling the /greeting get method.");
 		// add name and email to database spring_db
 		return "userdetails";
@@ -50,14 +49,7 @@ public class GreetingController {
 			Model model) {
 
 		// putting the name and email in the database spring_db
-		Details details = new Details();
-		details.setName(name);
-		details.setEmail(email);
-		details.setFirstName(firstName);
-		details.setSurname(surname);
-		details.setAge(age);
-		details.setYear(year);
-		
+		Details details = new Details(name,email,firstName,surname,age,year);
 		detailsRepository.save(details);
 		
 		System.out.println("Calling the /greeting get method.");

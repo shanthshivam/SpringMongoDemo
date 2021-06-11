@@ -1,15 +1,11 @@
-package com.ashwin.accessingdatamysql;
+package com.ashwin.accessingdatamongo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
 
-@Entity // This tells Hibernate to make a table out of this class
+
 public class Details {
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
-  private Integer id;
+  private String id;
 
   private String name;
 
@@ -21,6 +17,14 @@ public class Details {
   private int age;
   private int year;
 
+  public Details(String name, String email, String firstName, String surname, int age, int year) {
+	  this.age = age;
+	  this.year = year;
+	  this.email = email;
+	  this.name = name;
+	  this.firstName = firstName;
+	  this.surname = surname;
+  }
   public String getFirstName() {
 	return firstName;
 }
@@ -53,11 +57,11 @@ public void setYear(int year) {
 	this.year = year;
 }
 
-public Integer getId() {
+public String getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -75,5 +79,12 @@ public Integer getId() {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+  
+  @Override
+  public String toString() {
+    return String.format(
+        "Details[id=%s, name='%s', email='%s', firstName='%s', surname='%s', age='%d', year='%d']",
+        id, name, email, firstName, surname, age, year);
   }
 }
